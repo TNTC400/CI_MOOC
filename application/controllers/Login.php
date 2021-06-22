@@ -21,10 +21,12 @@ class Login extends CI_Controller {
 			return NULL;
 
 		} else {
+			$option = ['cost' => 12];
 			$username = $this->input->post('username');
 			$password = $this->input->post('password');
-			$user_id = $this->Login_model->login_user($username,$password);
+			//$password = password_hash($this->input->post('password'), PASSWORD_BCRYPT, $option);
 
+			$user_id = $this->Login_model->login_user($username,$password);
 			if($user_id) {
 
 				$user_data = array(

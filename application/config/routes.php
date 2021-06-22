@@ -68,3 +68,7 @@ $route['borrowstatus'] = 'Borrowstatus';
 
 // Detail of selected book
 $route['bookdetail/(:num)'] = 'Book/detail/$1';
+
+// Add new book
+$route['addbook'] = 'AddBook/index';
+$route['newbook'] = 'AddBook/add';

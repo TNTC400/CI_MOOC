@@ -38,8 +38,18 @@
         </tr>
         <!-- data here -->
     </table>
-
 </div>
+
+<div>
+    <div class="row">
+        <div class="text-center">
+            <form class="form-addbook" id="formAddBook" action="addbook" method="post">
+                <button class="btn btn-lg btn-primary btn-block" type="submit">Add new book</button>
+            </form>
+        </div>
+    </div>
+</div>
+
 <script type="text/javascript">
     $("#formLogout").submit(function(event)
     {
