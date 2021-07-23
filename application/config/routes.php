@@ -61,7 +61,9 @@ $route['usersignup'] = 'SignUp/doSignUp';
 
 // Request manage
 $route['requestmanage'] = 'Requestmanage';
-$route['request/(:num)'] = 'Requestmanage/createRequest/$1';
+$route['request/(:num)'] = 'Requestmanage/ShowPageRequest/$1';
+$route['request/request/(:num)'] = 'Requestmanage/Request/$1';
+$route['search/(:any)'] = 'Requestmanage/Search';
 
 // Borrow statuses
 $route['borrowstatus'] = 'Borrowstatus';
@@ -72,3 +74,13 @@ $route['bookdetail/(:num)'] = 'Book/detail/$1';
 // Add new book
 $route['addbook'] = 'AddBook/index';
 $route['newbook'] = 'AddBook/add';
+
+// Add to existed book
+$route['addbook/(:num)'] = 'Book/ShowPageAddExisted/$1';
+$route['addbook/addexisted/(:num)'] = 'Book/AddExisted/$1';
+$route['deletebook/(:num)'] = 'Book/ShowPageDeleteExisted/$1';
+$route['deletebook/delete/(:num)'] = 'Book/Delete/$1';
+$route['myrequest'] = 'Requestmanage/UserRequest';
+
+$route['acceptrequest/(:num)'] = 'Requestmanage/AcceptRequest/$1';
+$route['bookreturn/(:num)'] = 'Requestmanage/BookReturn/$1';

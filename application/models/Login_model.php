@@ -14,7 +14,7 @@ class Login_model extends CI_Model {
 		$db_password = $result->row(2)->password;
 
 		if(password_verify($password, $db_password)) {
-			return $result->row(0)->id;
+			return $result->row(0);
 		} else {
 			return NULL;
 

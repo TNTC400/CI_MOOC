@@ -18,5 +18,45 @@ const Book = {
                 window.location = 'home'
             },
         });
-}
+    },
+
+    AddExistedBook : function(value) {
+        var formData = {
+            id: value,
+            quantity: $("#quantity").val()
+        };
+        
+        var str = "addexisted/" + value;
+        
+        $.ajax({
+            type: "POST",
+            url: "addexisted/"+value,
+            data: formData,
+            success: function (data) {
+                let resp = JSON.parse(data);
+                window.location.href = resp.redirect
+            },
+            error: function (data) {
+                
+            },
+        });
+    },
+
+    DeleteBook : function(value) {
+        var formData = {
+        id: value
+        };   
+    
+        $.ajax({
+            type: "POST",
+            url: "delete/" + value,
+            data: formData,
+            success: function (data) {
+                let resp = JSON.parse(data);
+                window.location.href = resp.redirect
+            },
+            error: function (data) {
+            },
+        });
+    },
 }

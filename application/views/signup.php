@@ -1,10 +1,13 @@
 <script src="<?php echo site_url('assets/js/signup.js'); ?>"></script>
+<div>
+  <h1 class="h3 mb-3 font-weight-normal page-title">Sign up</h1>
+</div>
 
-<body class="text-center">
+<div class="page-body">
+  <body class="text-center">
     <form class="form-signup" id="formSignUp" action="usersignup" method="post">
       <!-- User name -->
       <p>
-        <h1 class="h3 mb-3 font-weight-normal">Sign up</h1>
         <label for="username" class="sr-only">Username</label><br>
         <input type="text" id="username" class="text-center" required autofocus>
       </p>
@@ -24,18 +27,19 @@
         <input type="password" id="passwordconf" class="text-center" required>
       </p>
 
-      <button class="btn btn-lg btn-primary btn-block" type="submit">Sign up</button>
+      <button class="orange-button" type="submit">Sign up</button>
       <p></p>
 
       <a href="<?php echo base_url() . 'login'  ?>"> Have an account? </a>
     </form>
+  </body>
+</div>
 
-    <script type="text/javascript">
-    $("#formSignUp").submit(function(event)
-    {
-        event.preventDefault();
-        SignUp.signup();
-        return false;
-    });
+<script type="text/javascript">
+  $("#formSignUp").submit(function(event)
+  {
+      event.preventDefault();
+      SignUp.signup();
+      return false;
+  });
 </script>
-</body>

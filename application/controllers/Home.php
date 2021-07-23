@@ -18,13 +18,38 @@ class Home extends CI_Controller {
 	 * map to /index.php/welcome/<method_name>
 	 * @see https://codeigniter.com/user_guide/general/urls.html
 	 */
+	public function __construct()
+	{
+		parent::__construct();
+		$this->load->model('Book_model');
+		$this->load->model('Request_model');
+	}
+
 	public function index()
 	{
         if($this->session->userdata('user_id') === NULL)
         {
             redirect('login');
         }
-        $data['content'] = 'home';
+		$data['books'] = $this->Book_model->getAllBooks();
+
+		// Check if user has a request in-progress
+		$condition = array(
+			'userid' => $this->session->userdata('user_id'),
+			'status' => 0
+		);
+
+		if($this->session->userdata('role') === "ADMIN")
+		{
+			$data['content'] = 'home';
+		}
+		else
+		{
+			$requests = $this->Request_model->get($condition);
+			$data['isCanRequest'] = count($requests) <= 0;
+			
+			$data['content'] = 'home_user';
+		}
 		$this->load->view('layouts/main', $data);
 	}
 }

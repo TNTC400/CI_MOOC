@@ -15,7 +15,9 @@ class SignUp extends CI_Controller {
         $this->form_validation->set_rules('email',    'Email',    'required|valid_email|is_unique[users.email]');
 		$this->form_validation->set_rules('password', 'Password', 'trim|required|min_length[3]');
         $this->form_validation->set_rules('passconf', 'Password Confirmation', 'required|matches[password]');
+
 		if($this->form_validation->run() == FALSE) {
+			
 			
 			$data = array(
 				'errors' => validation_errors()
@@ -29,13 +31,10 @@ class SignUp extends CI_Controller {
 			$signUpSuccess = $this->SignUp_model->signUp($username, $email, $password);
 
 			if($signUpSuccess) {
-
 				$user_data = array(
-					'user_id' => $user_id,
 					'username' => $username,
                     'email' => $email,
 					);
-
 				echo json_encode($user_data);
 
 			} else {

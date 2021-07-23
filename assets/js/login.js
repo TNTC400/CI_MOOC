@@ -12,14 +12,15 @@ const Login = {
             data: formData,
             success: function (data) {
                 if (data) {
-                    window.location = 'home'
+                    let resp = JSON.parse(data);
+                    window.location.href = resp.redirect;
                 }
                 else {
                     window.location = 'login'
                 }
             },
-            error: function () {
-                window.location = 'login'
+            error: function (data) {
+                
             },
         });
 }
