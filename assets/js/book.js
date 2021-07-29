@@ -1,17 +1,5 @@
 const Book = {
     error_list: [],
-    // loadBooks: function (page) {
-    //     $.ajax({
-    //         type: "GET",
-    //         url: 'home/' + page,
-    //         success: function (data) {
-    //             let resp = JSON.parse(data);
-    //             $("#bookTable").html(resp.bookTable),
-    //             $("#pagination_link").html(resp.pagination_link)    
-    //         }
-    //     });
-    // },
-
     addnew : function() {
     var formData = {
         title: $("#title").val(),

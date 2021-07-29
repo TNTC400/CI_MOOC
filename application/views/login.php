@@ -16,12 +16,6 @@
         <label for="password" class="sr-only">Password</label><br>
         <input type="password" id="password" class="text-center" required>
       </p>
-      
-      <!-- <div class="checkbox mb-3">
-        <label>
-          <input type="checkbox" value="remember-me"> Remember me
-        </label>
-      </div> -->
       <p>
         <button class="orange-button" type="submit">Sign in</button>
       </p>

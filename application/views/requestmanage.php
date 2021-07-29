@@ -81,26 +81,4 @@
         Request.acceptRequest(value);
         return false;
     });
-
-    // $(document).on("click", ".button-accept",function(event) {        
-    //     value = $(this).attr('value');
-    //     event.preventDefault();
-    //     if($(this).text().trim() === "Accept")
-    //     {
-    //         Request.acceptRequest(value);
-    //     }
-    //     else
-    //     {
-    //         Request.bookReturn(value);
-    //     }
-    //     return false;
-    // });
-
-    // $("#buttonSearch").click(function(event)
-    // {
-    //     value = $("#textSearch").val();
-    //     event.preventDefault();
-    //     Request.search(value);
-    //     return false;
-    // });
 </script>

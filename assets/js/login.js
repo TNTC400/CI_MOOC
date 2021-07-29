@@ -20,7 +20,7 @@ const Login = {
                     }
                 }
                 else {
-                    //window.location = 'login'
+                    
                 }
             },
             error: function (data) {
