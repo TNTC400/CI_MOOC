@@ -24,6 +24,9 @@
             <li class="nav nav-item">
                 <a class="nav-link active" href="<?php echo base_url('requestmanage') ?>"> Requests </a>
             </li>
+            <li class="nav nav-item">
+                <a class="nav-link" href="<?php echo base_url('borrowingmanage') ?>"> Borrowing books </a>
+            </li>
         </ul>
     </div>
     <div class="col-sm-2">
@@ -38,28 +41,10 @@
 </div>
 
 <div class="page-body">
-    <div id="tableRequests">
-        <table class="table">
-            <tr>
-                <th class="col-sm-2 text-center"> User </th>
-                <th class="col-sm-5 text-center"> Requested book </th>
-                <th class="col-sm-1 text-center"> Request date </th>
-                <th class="col-sm-1 text-center"> Accept </th>
-            </tr>
-            <!-- data here -->
-            <?php foreach($requests as $request): ?>
-            <tr>
-                <td class="text-center"><?php echo $request->username?></td>
-                <td class="text-center"><?php echo $request->booktitle?></td>
-                <td class="text-center"><?php echo $request->request_date?></td>
-                <td class="text-center"> <button class="btn btn-lg btn-primary btn-block button-accept" value=<?php echo $request->id ?>> 
-                    <?php if($request->status == 0): echo "Accept"  ?>
-                    <?php else: echo "Return";  ?>
-                    <?php endif; ?>
-                </button></td>
-            </tr>
-            <?php endforeach; ?>
-        </table>
+    <div id="tableRequests"></div>
+    <div class="row">
+        <div class="col-sm-10"></div>
+        <div class="col-sm-2"><div class="text-center" id = "pagination_link"></div>
     </div>
 </div>
 <script type="text/javascript">
@@ -70,17 +55,15 @@
         return false;
     });
 
-    $(document).on("click", ".button-accept",function(event) {        
-        value = $(this).attr('value');
+    $(document).ready(function(){
+        Request.searchRequest('',1);
+    });
+
+    $(document).on('click', ".no-search-item a", function(event)
+    {
         event.preventDefault();
-        if($(this).text().trim() === "Accept")
-        {
-            Request.acceptRequest(value);
-        }
-        else
-        {
-            Request.bookReturn(value);
-        }
+        let page = $(this).data('ci-pagination-page');
+        Request.searchRequest('',page);
         return false;
     });
 
@@ -88,7 +71,36 @@
     {
         value = $("#textSearch").val();
         event.preventDefault();
-        Request.search(value);
+        Request.searchRequest(value,1);
         return false;
     });
+
+    $(document).on("click", ".button-accept",function(event) {        
+        value = $(this).attr('value');
+        event.preventDefault();
+        Request.acceptRequest(value);
+        return false;
+    });
+
+    // $(document).on("click", ".button-accept",function(event) {        
+    //     value = $(this).attr('value');
+    //     event.preventDefault();
+    //     if($(this).text().trim() === "Accept")
+    //     {
+    //         Request.acceptRequest(value);
+    //     }
+    //     else
+    //     {
+    //         Request.bookReturn(value);
+    //     }
+    //     return false;
+    // });
+
+    // $("#buttonSearch").click(function(event)
+    // {
+    //     value = $("#textSearch").val();
+    //     event.preventDefault();
+    //     Request.search(value);
+    //     return false;
+    // });
 </script>

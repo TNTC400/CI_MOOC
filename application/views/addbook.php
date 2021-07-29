@@ -1,5 +1,11 @@
 <script src="<?php echo site_url('assets/js/book.js'); ?>"></script>
-
+<div class="page-head">
+    <div class="row">
+        <div class="col-sm-12">
+            <h1 class="text-center page-title"> Add new book </h1>
+        </div>
+    </div>    
+</div>
 <div class="page-body">
   <body class="text-center">
       <form class="form-addbook" id="formAddBook" action="newbook" method="post">

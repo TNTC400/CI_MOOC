@@ -1,5 +1,17 @@
 const Book = {
-    error_list : [],
+    error_list: [],
+    // loadBooks: function (page) {
+    //     $.ajax({
+    //         type: "GET",
+    //         url: 'home/' + page,
+    //         success: function (data) {
+    //             let resp = JSON.parse(data);
+    //             $("#bookTable").html(resp.bookTable),
+    //             $("#pagination_link").html(resp.pagination_link)    
+    //         }
+    //     });
+    // },
+
     addnew : function() {
     var formData = {
         title: $("#title").val(),
@@ -59,4 +71,24 @@ const Book = {
             },
         });
     },
+
+    search: function (value,page) {
+        var formData = {
+            inputString: value
+        };
+
+        $.ajax({
+            type: "POST",
+            url: "booksearch/" + page + '/' + value,
+            data: formData,
+            success: function (data) {
+                let resp = JSON.parse(data);
+                $("#bookTable").html(resp.bookTable),
+                $("#pagination_link").html(resp.pagination_link)
+            },
+            error: function (data) {
+                
+            },
+        });
+    }
 }

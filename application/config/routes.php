@@ -55,18 +55,22 @@ $route['translate_uri_dashes'] = FALSE;
 $route['login'] = 'Login/index';
 $route['userlogin']= 'Login/doLogin';
 $route['home'] = 'Home/index';
+$route['home/(:num)'] = 'Home/LoadPage/$1';
 $route['userlogout'] = 'Logout/doLogout';
 $route['signup'] = 'SignUp/index';
 $route['usersignup'] = 'SignUp/doSignUp';
+$route['forgotpassword'] = 'Login/forgotPassword';
+$route['sendtokenchangepassword'] = 'Login/sendTokenChangePassword';
+$route['changepassword'] = 'Login/changePassword';
+$route['viewmyprofile'] = 'User/viewMyProfile';
 
 // Request manage
 $route['requestmanage'] = 'Requestmanage';
 $route['request/(:num)'] = 'Requestmanage/ShowPageRequest/$1';
 $route['request/request/(:num)'] = 'Requestmanage/Request/$1';
-$route['search/(:any)'] = 'Requestmanage/Search';
 
 // Borrow statuses
-$route['borrowstatus'] = 'Borrowstatus';
+$route['borrowingmanage'] = 'Requestmanage/BorrowingPage';
 
 // Detail of selected book
 $route['bookdetail/(:num)'] = 'Book/detail/$1';
@@ -84,3 +88,9 @@ $route['myrequest'] = 'Requestmanage/UserRequest';
 
 $route['acceptrequest/(:num)'] = 'Requestmanage/AcceptRequest/$1';
 $route['bookreturn/(:num)'] = 'Requestmanage/BookReturn/$1';
+
+// Search
+$route['booksearch/(:num)/(:any)'] = 'Home/Search/$1';
+$route['booksearch/(:num)'] = 'Home/Search/$1';
+$route['borrowingsearch/(:num)'] = 'Requestmanage/BorrowingSearch/$1';
+$route['requestsearch/(:num)'] = 'Requestmanage/RequestSearch/$1';

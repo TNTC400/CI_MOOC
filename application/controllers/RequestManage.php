@@ -211,7 +211,7 @@ class RequestManage extends CI_Controller {
 
 		$resp = array(
 			'isUpdated' => true,
-			'redirect' => base_url('requestmanage')
+			'redirect' => base_url('borrowingmanage')
 		);
 
 		echo json_encode($resp);
@@ -260,5 +260,219 @@ class RequestManage extends CI_Controller {
 		);
 
 		echo json_encode($resp);
+	}
+
+	public function BorrowingPage()
+	{
+		# code...
+		if($this->session->userdata('user_id') === NULL)
+        {
+            redirect('login');
+        }
+
+        $data['content'] = 'borrowingmanage';
+		$this->load->view('layouts/main', $data);
+	}
+
+	public function BorrowingSearch($page = 1)
+	{
+		$searchString = $this->input->post('inputString');
+
+		$config = array();
+		
+		if($searchString == '') {
+			$config['base_url'] = '#';
+			$config['total_rows'] = $this->Request_model->countAllBorrowing($searchString);
+			$config['per_page'] = 5;
+			$config['use_page_numbers'] = TRUE;
+			$config['full_tag_open'] = '<ul class="pagination div-logout">';
+			$config['full_tag_close'] = '</ul>';
+			$config['first_tag_open'] = '<li class="page-item no-search-item">';
+			$config['first_tag_close'] = '</li>';
+			$config['last_tag_open'] = '<li class="page-item no-search-item">';
+			$config['last_tag_close'] = '</li>';
+			$config['next_link'] =  '&gt;';
+			$config['next_tag_open'] = '<li class="next-page no-search-item">';
+			$config['next_tag_close'] = '</li>';
+			$config['prev_link'] =  '&lt;';
+			$config['prev_tag_open'] = '<li class="prev-page no-search-item">';
+			$config['prev_tag_close'] = '</li>';
+			$config['cur_tag_open'] = '<li class="page-item active no-search-item"><a href="#">';
+			$config['cur_tag_close'] = '</a></li>';
+			$config['num_tag_open'] = '<li class="page no-search-item">';
+			$config['num_tag_close'] = '</li>';
+			$config['num_links'] = 1;
+			$this->pagination->initialize($config);
+		} else {
+			$config['base_url'] = '#';
+			$config['total_rows'] = $this->Request_model->countAllBorrowing($searchString);
+			$config['per_page'] = 5;
+			$config['use_page_numbers'] = TRUE;
+			$config['full_tag_open'] = '<ul class="pagination div-logout">';
+			$config['full_tag_close'] = '</ul>';
+			$config['first_tag_open'] = '<li class="page-item search-item">';
+			$config['first_tag_close'] = '</li>';
+			$config['last_tag_open'] = '<li class="page-item search-item">';
+			$config['last_tag_close'] = '</li>';
+			$config['next_link'] =  '&gt;';
+			$config['next_tag_open'] = '<li class="next-page search-item">';
+			$config['next_tag_close'] = '</li>';
+			$config['prev_link'] =  '&lt;';
+			$config['prev_tag_open'] = '<li class="prev-page search-item">';
+			$config['prev_tag_close'] = '</li>';
+			$config['cur_tag_open'] = '<li class="page-item active search-item"><a href="#">';
+			$config['cur_tag_close'] = '</a></li>';
+			$config['num_tag_open'] = '<li class="page search-item">';
+			$config['num_tag_close'] = '</li>';
+			$config['num_links'] = 1;
+			$this->pagination->initialize($config);
+		}
+
+		$start = ($page - 1) * $config['per_page'];
+		$requestsOfPage = $this->Request_model->searchBorrowing($searchString, $config['per_page'], $start);
+
+		$table = "";
+		$table =  $this->CreateBorrowingBooksTable($requestsOfPage);
+		
+
+		$resp = array(
+			'requestTable' => $table,
+			'pagination_link' => $this->pagination->create_links()
+		);
+
+		echo json_encode($resp);
+	}
+
+	public function CreateBorrowingBooksTable($requests)
+	{
+		# code...
+		$tablehtml = "<table class=\"table\">
+			<tr>
+			<th class=\"col-sm-2 text-center\"> User </th>
+			<th class=\"col-sm-5 text-center\"> Requested book </th>
+			<th class=\"col-sm-1 text-center\"> Request date </th>
+			<th class=\"col-sm-1 text-center\"></th>
+			</tr>";
+		if(count($requests) > 0) {
+			
+			foreach($requests as $request)
+			{
+				$tablehtml = $tablehtml . "<tr>
+                <td class=\"text-center\">".$request->username."</td>
+                <td class=\"text-center\">".$request->booktitle."</td>
+                <td class=\"text-center\">".$request->request_date."</td>
+                <td class=\"text-center\"> <button class=\"btn btn-lg btn-primary btn-block button-accept\" value=".$request->id.">";
+				$tablehtml = $tablehtml." Return ";
+				$tablehtml = $tablehtml."</button></td>
+            	</tr>";
+			}
+
+			$tablehtml = $tablehtml."</table>";
+		} else {
+			$tablehtml = $tablehtml . "</table> <h6 class=\"text-center\"> No result.</h6>";
+		}
+
+		return $tablehtml;
+	}
+
+	public function RequestSearch($page = 1)
+	{
+		$searchString = $this->input->post('inputString');
+
+		$config = array();
+		
+		if($searchString == '') {
+			$config['base_url'] = '#';
+			$config['total_rows'] = $this->Request_model->countAllRequest($searchString);
+			$config['per_page'] = 5;
+			$config['use_page_numbers'] = TRUE;
+			$config['full_tag_open'] = '<ul class="pagination div-logout">';
+			$config['full_tag_close'] = '</ul>';
+			$config['first_tag_open'] = '<li class="page-item no-search-item">';
+			$config['first_tag_close'] = '</li>';
+			$config['last_tag_open'] = '<li class="page-item no-search-item">';
+			$config['last_tag_close'] = '</li>';
+			$config['next_link'] =  '&gt;';
+			$config['next_tag_open'] = '<li class="next-page no-search-item">';
+			$config['next_tag_close'] = '</li>';
+			$config['prev_link'] =  '&lt;';
+			$config['prev_tag_open'] = '<li class="prev-page no-search-item">';
+			$config['prev_tag_close'] = '</li>';
+			$config['cur_tag_open'] = '<li class="page-item active no-search-item"><a href="#">';
+			$config['cur_tag_close'] = '</a></li>';
+			$config['num_tag_open'] = '<li class="page no-search-item">';
+			$config['num_tag_close'] = '</li>';
+			$config['num_links'] = 1;
+			$this->pagination->initialize($config);
+		} else {
+			$config['base_url'] = '#';
+			$config['total_rows'] = $this->Request_model->countAllRequest($searchString);
+			$config['per_page'] = 5;
+			$config['use_page_numbers'] = TRUE;
+			$config['full_tag_open'] = '<ul class="pagination div-logout">';
+			$config['full_tag_close'] = '</ul>';
+			$config['first_tag_open'] = '<li class="page-item search-item">';
+			$config['first_tag_close'] = '</li>';
+			$config['last_tag_open'] = '<li class="page-item search-item">';
+			$config['last_tag_close'] = '</li>';
+			$config['next_link'] =  '&gt;';
+			$config['next_tag_open'] = '<li class="next-page search-item">';
+			$config['next_tag_close'] = '</li>';
+			$config['prev_link'] =  '&lt;';
+			$config['prev_tag_open'] = '<li class="prev-page search-item">';
+			$config['prev_tag_close'] = '</li>';
+			$config['cur_tag_open'] = '<li class="page-item active search-item"><a href="#">';
+			$config['cur_tag_close'] = '</a></li>';
+			$config['num_tag_open'] = '<li class="page search-item">';
+			$config['num_tag_close'] = '</li>';
+			$config['num_links'] = 1;
+			$this->pagination->initialize($config);
+		}
+		
+		$start = ($page - 1) * $config['per_page'];
+		$requestsOfPage = $this->Request_model->searchRequest($searchString, $config['per_page'], $start);
+
+		$table = "";
+		$table =  $this->CreateRequestTable($requestsOfPage);
+		
+
+		$resp = array(
+			'requestTable' => $table,
+			'pagination_link' => $this->pagination->create_links()
+		);
+
+		echo json_encode($resp);
+	}
+
+	public function CreateRequestTable($requests)
+	{
+		# code...
+		$tablehtml = "<table class=\"table\">
+			<tr>
+			<th class=\"col-sm-2 text-center\"> User </th>
+			<th class=\"col-sm-5 text-center\"> Requested book </th>
+			<th class=\"col-sm-1 text-center\"> Request date </th>
+			<th class=\"col-sm-1 text-center\"></th>
+			</tr>";
+		if(count($requests) > 0) {
+			
+			foreach($requests as $request)
+			{
+				$tablehtml = $tablehtml . "<tr>
+                <td class=\"text-center\">".$request->username."</td>
+                <td class=\"text-center\">".$request->booktitle."</td>
+                <td class=\"text-center\">".$request->request_date."</td>
+                <td class=\"text-center\"> <button class=\"btn btn-lg btn-primary btn-block button-accept\" value=".$request->id.">";
+				$tablehtml = $tablehtml." Accept ";
+				$tablehtml = $tablehtml."</button></td>
+            	</tr>";
+			}
+
+			$tablehtml = $tablehtml."</table>";
+		} else {
+			$tablehtml = $tablehtml . "</table> <h6 class=\"text-center\"> No result.</h6>";
+		}
+
+		return $tablehtml;
 	}
 }

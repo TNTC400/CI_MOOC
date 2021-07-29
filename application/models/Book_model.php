@@ -2,8 +2,31 @@
 
 class Book_model extends CI_Model {
 
+    private $bookTable = 'books';
+    private $requestTable = 'requests';
+    private $userTable = 'users';
+
+    public function countAllBooks($searchString = '')
+    {
+        # code...
+        if($searchString != '') {
+            $searchStringCondition = "$this->bookTable.name like '%".$searchString."%'";
+            $this->db->where($searchStringCondition);
+        }
+
+        return $this->db->count_all_results('books');
+        
+    }
+
     public function getAllBooks()
     {
+        return $this->db->get('books')->result();
+    }
+
+    public function getBooks($limit, $offset)
+    {
+        # code...
+        $this->db->limit($limit, $offset);
         return $this->db->get('books')->result();
     }
 
@@ -44,5 +67,19 @@ class Book_model extends CI_Model {
     {
         $this->db->where($conditions);
         $this->db->delete('books');
+    }
+
+    public function search($searchString, $limit, $offset)
+    {        
+        # code...
+        $this->db->select("*");
+        $this->db->from("$this->bookTable");
+        if($searchString != '') {
+            $searchStringCondition = "$this->bookTable.name like '%".$searchString."%'"; 
+            $this->db->where($searchStringCondition);
+        }
+        $this->db->limit($limit, $offset);
+        $query = $this->db->get();
+        return $query->result();
     }
 }

@@ -5,7 +5,8 @@
     <div class="row">
         <div class="col-sm-12 logout-div">
             <h3 class="font-weight-normal">Hello <?php echo $this->session->userdata('username') ?></h3>
-            <form class="form-logout" id="formLogout" action="userlogout" method="post">
+            <a class="inline-button myprofile-button" id="btnProfile" href="<?php echo base_url('viewmyprofile') ?>"> My Profile </a>
+            <form class="form-logout inline-button " id="formLogout" action="userlogout" method="post">
                 <button class="primary-button" type="submit">Logout</button>
             </form>
         </div>
@@ -15,50 +16,48 @@
     </div>    
 </div>
 
-<div>
-    <ul class="nav nav-tabs nav-tabs-custom">
-        <li class="nav nav-item">
-            <a class="nav-link active" href="<?php echo base_url('home') ?>"> Home </a>
-        </li>
-        <li class="nav nav-item" >
-            <a class="nav-link" href="<?php echo base_url('requestmanage') ?>"> Requests </a>
-        </li>
-    </ul>
+<div class="row">
+    <div class="col-sm-10">
+        <ul class="nav nav-tabs nav-tabs-custom">
+            <li class="nav nav-item">
+                <a class="nav-link active" href="<?php echo base_url('home') ?>"> Home </a>
+            </li>
+            <li class="nav nav-item" >
+                <a class="nav-link" href="<?php echo base_url('requestmanage') ?>"> Requests </a>
+            </li>
+            <li class="nav nav-item">
+                <a class="nav-link" href="<?php echo base_url('borrowingmanage') ?>"> Borrowing books </a>
+            </li>
+        </ul>
+    </div>
+    <div class="col-sm-2">
+        <!-- Search -->
+        <input type="text" placeholder="Search..." class="textbox-search" id="textSearch">
+        <button id="buttonSearch" class="search-button">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-search" viewBox="0 0 16 16">
+                <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z"/>
+            </svg>
+        </button>
+    </div>
 </div>
 
 <div class="page-body">
-    <div id="bookTable">
-        <table class="table">
-            <tr>
-                <th class="col-sm-4"> Title </th>
-                <th class="col-sm-2"> Quantity </th>
-                <th class="col-sm-2"> Available </th>
-                <th class="col-sm-2">  </th>
-            </tr>
-            <!-- data here -->
-            <?php foreach($books as $book): ?>
-            <tr>
-                <td><a href="<?php echo base_url('bookdetail/'.$book->id) ?>"><?php echo $book->name?></td>
-                <td><?php echo $book->quantity?></td>
-                <td><?php echo $book->number_available?></td>
-                <td> <a href="<?php echo base_url('addbook/'.$book->id) ?>"  class="btn btn-lg btn-success btn-block" >Add</a>
-                <a href="<?php echo base_url('deletebook/'.$book->id) ?>" class="btn btn-lg btn-danger btn-block" type="submit">Delete</a> </td>
-            </tr>
-            <?php endforeach; ?>
-        </table>
+    <div id="bookTable"></div>
+    <div class="row">
+        <div class="col-sm-10"></div>
+        <div class="col-sm-2"><div class="text-center" id = "pagination_link"></div>
     </div>
-    
-    <div class="text-center" id = "pagination_link"></div>
+</div>    
 
-    <div>
-        <div class="row">
-            <div class="text-center">
-                <form class="form-addbook" id="formAddBook" action="addbook" method="post">
-                    <button class="orange-button" type="submit">Add new book</button>
-                </form>
-            </div>
+<div>
+    <div class="row">
+        <div class="text-center">
+            <form class="form-addbook" id="formAddBook" action="addbook" method="post">
+                <button class="orange-button" type="submit">Add new book</button>
+            </form>
         </div>
     </div>
+</div>
 </div>
 
 
@@ -69,4 +68,25 @@
         Logout.logout();
         return false;
     });
+
+    $(document).ready(function(){
+        Book.search('',1);
+    });
+
+    $(document).on('click', ".no-search-item a", function(event)
+    {
+        event.preventDefault();
+        let page = $(this).data('ci-pagination-page');
+        Book.search('',page);
+        return false;
+    });
+
+    $("#buttonSearch").click(function(event)
+    {
+        value = $("#textSearch").val();
+        event.preventDefault();
+        Book.search(value,1);
+        return false;
+    });
+
 </script>
